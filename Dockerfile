@@ -6,8 +6,8 @@ ENV ANDROID_SDK_ZIP=sdk-tools-linux-4333796.zip
 ENV ANDROID_SDK_VERSION=29
 
 # Set environment variables for Flutter
+ENV FLUTTER_ZIP=flutter_linux_3.16.2-stable.tar.xz
 ENV FLUTTER_HOME=/usr/local/flutter
-ENV FLUTTER_VERSION=3.16.2
   
 # Install necessary dependencies
 RUN apt-get update && \
@@ -31,10 +31,10 @@ RUN yes | sdkmanager --licenses
 RUN sdkmanager "platform-tools" "platforms;android-${ANDROID_SDK_VERSION}"
 
 # install Flutter
-COPY downloads/flutter_linux_${FLUTTER_VERSION}-stable.tar.xz .
-RUN tar xf flutter_linux_${FLUTTER_VERSION}-stable.tar.xz && \
-		rm flutter_linux_${FLUTTER_VERSION}-stable.tar.xz && \
-#	mv flutter /usr/local
+COPY downloads/${FLUTTER_ZIP} .
+RUN tar xf ${FLUTTER_ZIP} && \
+		rm ${FLUTTER_ZIP} && \
+		mv flutter /usr/local
 
 # Add Flutter to the PATH
 ENV PATH=$FLUTTER_HOME/bin:$PATH
@@ -45,3 +45,4 @@ RUN flutter config --android-sdk /usr/local/android-sdk
 # Run Flutter doctor again to verify installation
 RUN flutter doctor
  
+RUN mkdir /workspace

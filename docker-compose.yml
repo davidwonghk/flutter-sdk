@@ -4,4 +4,5 @@ services:
   sdk:
     build: .
     restart: no
+    command: tail -f /dev/null
 
